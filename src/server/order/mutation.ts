@@ -1,4 +1,4 @@
-import type { WithSubquery } from "drizzle-orm";
+import { eq, type WithSubquery } from "drizzle-orm";
 import { db } from "../db/client";
 import { coffees, extras, orders } from "../db/schema";
 import { OrderInput } from "./type";
@@ -46,3 +46,11 @@ const orderId = crypto.randomUUID();
 
   return created.orderId;
 }
+
+export async function updateOrderStatus(orderId: string, status: "pending" | "in_progress" | "completed") {
+    if(status !== "pending" && status !== "in_progress" && status !== "completed"){
+        throw new Error("Invalid status");
+    }
+    await db.update(orders).set({ status, completedAt: status === "completed" ? new Date() : null }).where(eq(orders.orderId,orderId));
+    return orderId;
+    }
