@@ -2,7 +2,7 @@
 
 import { requireUser } from "../auth/require-user";
 import { createOrder, updateOrderStatus } from "./mutation";
-import { fetchCurrentOrders } from "./queries";
+import { fetchCompletedOrders, fetchCurrentOrders } from "./queries";
 import { OrderInput, OrderInputSchema } from "./type";
 
 export async function createOrderAction(input: OrderInput) {
@@ -21,4 +21,9 @@ export async function updateOrderStatusAction(orderId: string, status: "pending"
 export async function fetchCurrentOrdersAction(){
     await requireUser();
     return await fetchCurrentOrders();
+}
+
+export async function fetchCompletedOrdersAction(){
+    await requireUser();
+    return await fetchCompletedOrders();
 }
