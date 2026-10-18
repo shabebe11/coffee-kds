@@ -53,4 +53,4 @@ export async function updateOrderStatus(orderId: string, status: "pending" | "in
     }
     await db.update(orders).set({ status, completedAt: status === "completed" ? new Date() : null }).where(eq(orders.orderId,orderId));
     return orderId;
-    }
+}
