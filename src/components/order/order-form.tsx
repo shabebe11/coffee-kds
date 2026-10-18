@@ -17,7 +17,7 @@ type Cup = {
 };
 
 const choiceBase =
-  "flex min-h-14 cursor-pointer items-center rounded-md border-2 px-4 text-lg font-semibold transition-colors " +
+  "flex min-h-14 min-w-0 cursor-pointer items-center break-words rounded-md border-2 px-4 text-lg font-semibold transition-colors " +
   "border-edge bg-surface text-fg hover:border-fg peer-checked:border-fg peer-checked:bg-fg/15 peer-checked:shadow-[inset_0_0_0_2px_var(--fg)] " +
   "peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-fg";
 
@@ -37,7 +37,7 @@ function Choice({
   children: React.ReactNode;
 }) {
   return (
-    <label className="relative">
+    <label className="relative min-w-0">
       <input
         type={type}
         name={name}
@@ -117,9 +117,9 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
   }
 
   return (
-    <div className="grid flex-1 items-start gap-8 md:grid-cols-[1fr_20rem] lg:grid-cols-[1fr_24rem]">
-      <div className="flex flex-col gap-8">
-        <fieldset className="flex flex-col gap-3">
+    <div className="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)] items-start gap-8 md:grid-cols-[minmax(0,1fr)_20rem] lg:grid-cols-[minmax(0,1fr)_24rem]">
+      <div className="flex min-w-0 flex-col gap-8">
+        <fieldset className="flex min-w-0 flex-col gap-3">
           <legend className="mb-3 text-xl font-bold">Coffee</legend>
           <div className="grid grid-cols-2 gap-3 min-[560px]:grid-cols-3 md:grid-cols-2 lg:grid-cols-3">
             {coffeeTypes.map((type) => (
@@ -156,14 +156,14 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
                 onChange={(e) => setOtherName(e.target.value)}
                 maxLength={40}
                 autoComplete="off"
-                className="min-h-14 rounded-md border-2 border-edge bg-surface px-4 text-lg text-fg focus:border-fg"
+                className="min-h-14 w-full min-w-0 rounded-md border-2 border-edge bg-surface px-4 text-lg text-fg focus:border-fg"
               />
               <p className="text-sm text-subtle">Saved to the coffee list when you place the order.</p>
             </div>
           )}
         </fieldset>
 
-        <fieldset className="border-t border-edge pt-6">
+        <fieldset className="min-w-0 border-t border-edge pt-6">
           <legend className="mb-3 text-xl font-bold">Milk</legend>
           <div className="grid grid-cols-2 gap-3 min-[560px]:grid-cols-3 md:grid-cols-2 lg:grid-cols-3">
             {MILKS.map((m) => (
@@ -204,7 +204,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
               type="button"
               onClick={addExtra}
               disabled={!extraInput.trim() || extras.length >= 10}
-              className="min-h-14 rounded-md border-2 border-fg px-5 text-lg font-bold text-fg disabled:cursor-not-allowed disabled:border-edge disabled:text-subtle"
+              className="min-h-14 shrink-0 rounded-md border-2 border-fg px-4 text-lg font-bold text-fg disabled:cursor-not-allowed disabled:border-edge disabled:text-subtle"
             >
               Add extra
             </button>
@@ -217,7 +217,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
                     type="button"
                     onClick={() => setExtras((prev) => prev.filter((e) => e !== extra))}
                     aria-label={`Remove extra ${extra}`}
-                    className="rounded-md border-2 border-fg bg-fg/15 px-3 py-2 font-semibold text-fg"
+                    className="max-w-full break-all rounded-md border-2 border-fg bg-fg/15 px-3 py-2 text-left font-semibold text-fg"
                   >
                     {extra} &times;
                   </button>
@@ -237,7 +237,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
             onChange={(e) => setNotes(e.target.value)}
             maxLength={200}
             autoComplete="off"
-            className="min-h-14 rounded-md border-2 border-edge bg-surface px-4 text-lg text-fg focus:border-fg"
+            className="min-h-14 w-full min-w-0 rounded-md border-2 border-edge bg-surface px-4 text-lg text-fg focus:border-fg"
           />
         </div>
 
@@ -251,8 +251,8 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
         </button>
       </div>
 
-      <aside id="ticket" className="scroll-mt-4 md:sticky md:top-4">
-        <div className="ticket flex flex-col gap-5 p-6 pb-8">
+      <aside id="ticket" className="min-w-0 scroll-mt-4 md:sticky md:top-4">
+        <div className="ticket flex flex-col gap-5 p-4 pb-8 sm:p-6 sm:pb-8">
           <div className="flex items-baseline justify-between border-b border-dashed border-rule pb-4">
             <h2 className="text-2xl font-bold">Order</h2>
             <span className="text-subtle">
@@ -270,7 +270,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
               onChange={(e) => setCustomerName(e.target.value)}
               maxLength={60}
               autoComplete="off"
-              className="min-h-12 rounded-md border-2 border-edge bg-page px-4 text-lg text-fg focus:border-fg"
+              className="min-h-12 w-full min-w-0 rounded-md border-2 border-edge bg-page px-4 text-lg text-fg focus:border-fg"
             />
           </div>
 
@@ -280,7 +280,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
             <ul className="flex max-h-[35dvh] flex-col divide-y divide-dashed divide-rule overflow-y-auto">
               {cups.map((cup) => (
                 <li key={cup.id} className="flex items-start justify-between gap-3 py-3">
-                  <div className="flex flex-col">
+                  <div className="flex min-w-0 flex-col break-words">
                     <span className="text-lg font-bold">{capitalize(cup.name)}</span>
                     <span className="text-subtle">
                       {[MILKS.find((m) => m.value === cup.milk)?.label ?? cup.milk, ...cup.extras].join(", ")}
@@ -291,7 +291,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
                     type="button"
                     onClick={() => setCups((prev) => prev.filter((c) => c.id !== cup.id))}
                     aria-label={`Remove ${cup.name}`}
-                    className="rounded-md px-2 py-1 font-semibold text-alert hover:bg-fg/10"
+                    className="shrink-0 rounded-md px-2 py-1 font-semibold text-alert hover:bg-fg/10"
                   >
                     Remove
                   </button>
@@ -310,7 +310,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
           </button>
 
           <div aria-live="polite">
-            {placedFor && <p className="font-semibold">Order placed for {placedFor}</p>}
+            {placedFor && <p className="break-words font-semibold">Order placed for {placedFor}</p>}
             {order.isError && (
               <p role="alert" className="font-semibold text-alert">
                 The order did not save. Check the connection and place it again.

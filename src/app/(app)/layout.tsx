@@ -7,7 +7,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <Suspense fallback={<div className="h-16 shrink-0 border-b-2 border-edge" />}>
         <NavBar />
       </Suspense>
-      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto">{children}</main>
+      <main className="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto">{children}</main>
     </div>
   );
 }
