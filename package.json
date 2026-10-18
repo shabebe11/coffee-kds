@@ -9,14 +9,17 @@
     "lint": "eslint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "user:create": "node --env-file=.env scripts/create-user.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.4",
+    "jose": "^6.2.12",
     "next": "16.4.2",
     "postgres": "^3.4.9",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
