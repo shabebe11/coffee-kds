@@ -1,7 +1,8 @@
 import postgres from "postgres";
 import { hashPassword } from "../src/server/auth/password.ts";
 
-const [username, password] = process.argv.slice(2);
+const [rawUsername, password] = process.argv.slice(2);
+const username = rawUsername?.trim().toLowerCase();
 if (!username || !password) {
   console.error("Usage: pnpm user:create <username> <password>");
   process.exit(1);

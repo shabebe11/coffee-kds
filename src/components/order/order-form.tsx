@@ -3,6 +3,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { capitalize } from "@/lib/text";
 import { createOrderMutation } from "@/hooks/order/query-options";
 import { MILKS, OTHER } from "./options";
 
@@ -16,7 +17,7 @@ type Cup = {
 };
 
 const choiceBase =
-  "flex min-h-14 cursor-pointer items-center rounded-md border-2 px-4 text-lg font-semibold capitalize transition-colors " +
+  "flex min-h-14 cursor-pointer items-center rounded-md border-2 px-4 text-lg font-semibold transition-colors " +
   "border-edge bg-surface text-fg hover:border-fg peer-checked:border-fg peer-checked:bg-fg/15 peer-checked:shadow-[inset_0_0_0_2px_var(--fg)] " +
   "peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-fg";
 
@@ -130,7 +131,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
                 checked={selected === type}
                 onChange={() => setSelected(type)}
               >
-                {type}
+                {capitalize(type)}
               </Choice>
             ))}
             <Choice
@@ -280,7 +281,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
               {cups.map((cup) => (
                 <li key={cup.id} className="flex items-start justify-between gap-3 py-3">
                   <div className="flex flex-col">
-                    <span className="text-lg font-bold capitalize">{cup.name}</span>
+                    <span className="text-lg font-bold">{capitalize(cup.name)}</span>
                     <span className="text-subtle">
                       {[MILKS.find((m) => m.value === cup.milk)?.label ?? cup.milk, ...cup.extras].join(", ")}
                     </span>

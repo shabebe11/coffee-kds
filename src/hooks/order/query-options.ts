@@ -11,9 +11,10 @@ export const orderKeys = {
     all: ["orders"] as const,
     current: ["orders", "current"] as const,
     completed: ["orders", "completed"] as const,
+    updateStatus: ["orders", "updateStatus"] as const,
 };
 
-const POLL_INTERVAL_MS = 3000;
+export const POLL_INTERVAL_MS = 3000;
 
 export const currentOrdersQuery = () =>
     queryOptions({
@@ -35,6 +36,7 @@ export const createOrderMutation = () =>
 
 export const updateOrderStatusMutation = () =>
     mutationOptions({
+        mutationKey: orderKeys.updateStatus,
         mutationFn: (vars: { orderId: string; status: "pending" | "in_progress" | "completed" }) =>
             updateOrderStatusAction(vars.orderId, vars.status),
     });

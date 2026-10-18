@@ -10,7 +10,7 @@ import { createSession, deleteSession } from "./session";
 export type LoginState = { error?: string };
 
 export async function login(_prev: LoginState, formData: FormData): Promise<LoginState> {
-  const username = String(formData.get("username") ?? "").trim();
+  const username = String(formData.get("username") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
   if (!username || !password) return { error: "Username and password are required" };
 
