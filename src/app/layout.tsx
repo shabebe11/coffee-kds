@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
@@ -11,6 +11,13 @@ const instrumentSans = Instrument_Sans({
 export const metadata: Metadata = {
   title: "Coffee KDS",
   description: "Take coffee orders and send them to the barista",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#050505",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

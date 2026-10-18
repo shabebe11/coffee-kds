@@ -13,7 +13,7 @@ import { PreviousOrders } from "./previous-orders";
 import type { BoardOrder, OrderStatus } from "./types";
 import { useNow } from "./use-now";
 
-const zoneBase = "flex min-h-0 flex-col gap-3 rounded-lg border-2 p-3 transition-colors";
+const zoneBase = "flex flex-col gap-3 rounded-lg border-2 p-3 transition-colors md:min-h-0";
 
 export function OrderBoard({ initialOrders }: { initialOrders: BoardOrder[] }) {
   const queryClient = useQueryClient();
@@ -85,7 +85,7 @@ export function OrderBoard({ initialOrders }: { initialOrders: BoardOrder[] }) {
     hover === zone ? "border-fg bg-fg/5" : "border-edge";
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4">
+    <div className="flex flex-1 flex-col gap-4 md:min-h-0">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Orders</h1>
         <button
@@ -103,23 +103,26 @@ export function OrderBoard({ initialOrders }: { initialOrders: BoardOrder[] }) {
         </p>
       )}
 
-      <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[1fr_1fr_16rem]">
-        <section aria-labelledby="pending-title" className="flex min-h-0 flex-col gap-3">
+      <div className="grid flex-1 gap-4 md:min-h-0 md:grid-cols-[1fr_1fr_9rem] lg:grid-cols-[1fr_1fr_16rem]">
+        <section aria-labelledby="pending-title" className="flex flex-col gap-3 md:min-h-0">
           <h2 id="pending-title" className="flex items-baseline gap-2 text-xl font-bold">
             Pending <span className="text-subtle tabular-nums">{pending.length}</span>
           </h2>
-          <div ref={pendingRef} className={`${zoneBase} flex-1 overflow-y-auto ${highlight("pending")}`}>
+          <div ref={pendingRef} className={`${zoneBase} md:flex-1 md:overflow-y-auto ${highlight("pending")}`}>
             {pending.length === 0 ? <p className="text-subtle">No orders waiting.</p> : pending.map(renderCard)}
           </div>
         </section>
 
-        <section aria-labelledby="progress-title" className="flex min-h-0 flex-col gap-3">
+        <section aria-labelledby="progress-title" className="flex flex-col gap-3 md:min-h-0">
           <h2 id="progress-title" className="flex items-baseline gap-2 text-xl font-bold">
             In progress <span className="text-subtle tabular-nums">{inProgress.length}</span>
           </h2>
-          <div ref={progressRef} className={`${zoneBase} flex-1 overflow-y-auto ${highlight("in_progress")}`}>
+          <div ref={progressRef} className={`${zoneBase} md:flex-1 md:overflow-y-auto ${highlight("in_progress")}`}>
             {inProgress.length === 0 ? (
-              <p className="text-subtle">Nothing in progress. Swipe an order here to start it.</p>
+              <p className="text-subtle">
+                <span className="md:hidden">Nothing in progress.</span>
+                <span className="hidden md:inline">Nothing in progress. Swipe an order here to start it.</span>
+              </p>
             ) : (
               inProgress.map(renderCard)
             )}
@@ -128,11 +131,11 @@ export function OrderBoard({ initialOrders }: { initialOrders: BoardOrder[] }) {
 
         <div
           ref={doneRef}
-          className={`hidden items-center justify-center rounded-lg border-2 border-dashed p-6 text-center transition-colors lg:flex ${
+          className={`hidden items-center justify-center rounded-lg border-2 border-dashed p-3 text-center transition-colors md:flex lg:p-6 ${
             hover === "completed" ? "border-fg bg-fg/10 text-fg" : "border-edge text-subtle"
           }`}
         >
-          <p className="text-xl font-bold">Swipe here to finish</p>
+          <p className="text-lg font-bold lg:text-xl">Swipe here to finish</p>
         </div>
       </div>
 

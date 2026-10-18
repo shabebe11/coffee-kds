@@ -18,15 +18,15 @@ export function NavLinks() {
         aria-label="Main"
         className="mx-auto flex min-h-16 w-full max-w-7xl flex-wrap items-center justify-start gap-x-6 gap-y-2 px-4 sm:px-6"
       >
-        <ul className="flex items-stretch gap-2">
+        <ul className="flex w-full items-stretch gap-1 sm:w-auto sm:gap-2">
           {LINKS.map((link) => {
             const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
             return (
-              <li key={link.href} className="flex">
+              <li key={link.href} className="flex flex-1 sm:flex-none">
                 <Link
                   href={link.href}
                   aria-current={active ? "page" : undefined}
-                  className={`flex min-h-16 items-center border-b-4 px-3 text-lg font-bold ${
+                  className={`flex min-h-14 flex-1 items-center justify-center border-b-4 px-3 text-lg font-bold sm:min-h-16 sm:flex-none ${
                     active ? "border-fg text-fg" : "border-transparent text-subtle hover:text-fg"
                   }`}
                 >

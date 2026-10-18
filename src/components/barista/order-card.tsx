@@ -36,6 +36,7 @@ export function OrderCard({
   function handlePointerDown(e: React.PointerEvent<HTMLElement>) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     if ((e.target as HTMLElement).closest("button")) return;
+    if (!window.matchMedia("(min-width: 768px)").matches) return;
     start.current = { x: e.clientX, y: e.clientY };
   }
 

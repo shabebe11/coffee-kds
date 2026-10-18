@@ -117,11 +117,11 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
   }
 
   return (
-    <div className="grid flex-1 items-start gap-8 lg:grid-cols-[1fr_24rem]">
+    <div className="grid flex-1 items-start gap-8 md:grid-cols-[1fr_20rem] lg:grid-cols-[1fr_24rem]">
       <div className="flex flex-col gap-8">
         <fieldset className="flex flex-col gap-3">
           <legend className="mb-3 text-xl font-bold">Coffee</legend>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 min-[560px]:grid-cols-3 md:grid-cols-2 lg:grid-cols-3">
             {coffeeTypes.map((type) => (
               <Choice
                 key={type}
@@ -165,7 +165,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
 
         <fieldset className="border-t border-edge pt-6">
           <legend className="mb-3 text-xl font-bold">Milk</legend>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 min-[560px]:grid-cols-3 md:grid-cols-2 lg:grid-cols-3">
             {MILKS.map((m) => (
               <Choice
                 key={m.value}
@@ -251,7 +251,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
         </button>
       </div>
 
-      <aside className="lg:sticky lg:top-6">
+      <aside id="ticket" className="scroll-mt-4 md:sticky md:top-4">
         <div className="ticket flex flex-col gap-5 p-6 pb-8">
           <div className="flex items-baseline justify-between border-b border-dashed border-rule pb-4">
             <h2 className="text-2xl font-bold">Order</h2>
@@ -277,7 +277,7 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
           {cups.length === 0 ? (
             <p className="py-4 text-subtle">No coffees yet. Pick a coffee and choose Add to order.</p>
           ) : (
-            <ul className="flex flex-col divide-y divide-dashed divide-rule">
+            <ul className="flex max-h-[35dvh] flex-col divide-y divide-dashed divide-rule overflow-y-auto">
               {cups.map((cup) => (
                 <li key={cup.id} className="flex items-start justify-between gap-3 py-3">
                   <div className="flex flex-col">
@@ -319,6 +319,17 @@ export function OrderForm({ coffeeTypes }: { coffeeTypes: string[] }) {
           </div>
         </div>
       </aside>
+
+      {cups.length > 0 && (
+        <div className="sticky bottom-0 z-30 -mx-4 border-t-2 border-edge bg-page px-4 py-3 md:hidden">
+          <a
+            href="#ticket"
+            className="flex min-h-14 items-center justify-center rounded-md border-2 border-fg bg-fg/10 text-lg font-bold"
+          >
+            Review order ({cups.length})
+          </a>
+        </div>
+      )}
     </div>
   );
 }
