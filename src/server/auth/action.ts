@@ -19,7 +19,7 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
   if (!user || !valid) return { error: "Invalid username or password" };
 
   await createSession({ userId: user.userId, username: user.username });
-  redirect("/");
+  redirect("/order");
 }
 
 export async function logout() {

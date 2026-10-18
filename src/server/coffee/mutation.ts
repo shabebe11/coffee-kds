@@ -9,3 +9,8 @@ export async function createCoffeeType(input: string) {
 export async function fetchCoffeeTypes() {
     return db.select().from(coffeeType).orderBy(coffeeType.name);
 }
+
+export async function ensureCoffeeTypes(names: string[]) {
+    if (names.length === 0) return;
+    await db.insert(coffeeType).values(names.map((name) => ({ name }))).onConflictDoNothing();
+}
