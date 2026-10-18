@@ -13,6 +13,7 @@
     "user:create": "node --env-file=.env scripts/create-user.ts"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.104.4",
     "drizzle-orm": "^0.45.4",
     "jose": "^6.2.12",
     "next": "16.4.2",
