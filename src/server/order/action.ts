@@ -26,7 +26,9 @@ export async function fetchCurrentOrdersAction(){
     return await fetchCurrentOrders();
 }
 
-export async function fetchCompletedOrdersAction(){
+export async function fetchCompletedOrdersAction(sinceMs: number){
     await requireUser();
-    return await fetchCompletedOrders();
+    const since = new Date(sinceMs);
+    if (Number.isNaN(since.getTime())) throw new Error("Invalid date");
+    return await fetchCompletedOrders(since);
 }

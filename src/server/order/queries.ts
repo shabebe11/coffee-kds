@@ -10,8 +10,7 @@ export async function fetchCurrentOrders() {
     });
 }
 
-export async function fetchCompletedOrders(){
-    const since = new Date(Date.now() - 20 * 60 * 1000);
+export async function fetchCompletedOrders(since: Date){
     return db.query.orders.findMany({
         where: and(eq(orders.status, "completed"), gte(orders.completedAt, since)),
         orderBy: (orders) => desc(orders.completedAt),

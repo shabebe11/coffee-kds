@@ -44,7 +44,7 @@ export function PreviousOrders({
             <h2 id="previous-title" className="text-2xl font-bold">
               Previous orders
             </h2>
-            <p className="text-subtle">Finished in the last 20 minutes</p>
+            <p className="text-subtle">Finished today</p>
           </div>
           <button
             type="button"
@@ -70,7 +70,7 @@ export function PreviousOrders({
               </button>
             </div>
           )}
-          {data && data.length === 0 && <p className="text-subtle">No orders have been finished in the last 20 minutes.</p>}
+          {data && data.length === 0 && <p className="text-subtle">No orders have been finished today.</p>}
           {data && data.length > 0 && (
             <ul className="flex flex-col divide-y divide-dashed divide-rule">
               {data.map((order) => (

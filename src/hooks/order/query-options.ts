@@ -26,7 +26,11 @@ export const currentOrdersQuery = () =>
 export const completedOrdersQuery = () =>
     queryOptions({
         queryKey: orderKeys.completed,
-        queryFn: () => fetchCompletedOrdersAction(),
+        queryFn: () => {
+            const startOfToday = new Date();
+            startOfToday.setHours(0, 0, 0, 0);
+            return fetchCompletedOrdersAction(startOfToday.getTime());
+        },
     });
 
 export const createOrderMutation = () =>
