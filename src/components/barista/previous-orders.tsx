@@ -30,6 +30,12 @@ export function PreviousOrders({
 
   if (!open) return null;
 
+  const totalCount = (data ?? []).reduce((total, order) => total + order.coffees.length, 0);
+  const matchaCount = (data ?? []).reduce(
+    (total, order) => total + order.coffees.filter((coffee) => coffee.name.toLowerCase().includes("matcha")).length,
+    0,
+  );
+
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-page/70" onClick={onClose}>
       <aside
@@ -45,6 +51,11 @@ export function PreviousOrders({
               Previous orders
             </h2>
             <p className="text-subtle">Finished today</p>
+            {data && (
+              <p className="mt-1 font-semibold tabular-nums">
+                Total drinks: {totalCount} · Matcha: {matchaCount}
+              </p>
+            )}
           </div>
           <button
             type="button"
