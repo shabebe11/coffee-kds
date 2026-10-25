@@ -2,7 +2,7 @@
 
 import { requireUser } from "../auth/require-user";
 import { ensureCoffeeTypes } from "../coffee/mutation";
-import { createOrder, updateOrderStatus } from "./mutation";
+import { createOrder, deleteOrder, updateOrderStatus } from "./mutation";
 import { fetchCompletedOrders, fetchCurrentOrders } from "./queries";
 import { OrderInput, OrderInputSchema } from "./type";
 
@@ -19,6 +19,11 @@ export async function createOrderAction(input: OrderInput) {
 export async function updateOrderStatusAction(orderId: string, status: "pending" | "in_progress" | "completed") {
     await requireUser();
     await updateOrderStatus(orderId, status);
+}
+
+export async function deleteOrderAction(orderId: string) {
+    await requireUser();
+    await deleteOrder(orderId);
 }
 
 export async function fetchCurrentOrdersAction(){

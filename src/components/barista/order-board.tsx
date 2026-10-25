@@ -5,6 +5,7 @@ import { useCallback, useRef, useState } from "react";
 import {
   POLL_INTERVAL_MS,
   currentOrdersQuery,
+  deleteOrderMutation,
   orderKeys,
   updateOrderStatusMutation,
 } from "@/hooks/order/query-options";
@@ -24,7 +25,8 @@ export function OrderBoard({ initialOrders }: { initialOrders: BoardOrder[] }) {
   const progressRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef<HTMLDivElement>(null);
 
-  const updating = useIsMutating({ mutationKey: orderKeys.updateStatus }) > 0;
+  const updating =
+    useIsMutating({ mutationKey: orderKeys.updateStatus }) + useIsMutating({ mutationKey: orderKeys.delete }) > 0;
   const { data: orders = initialOrders } = useQuery({
     ...currentOrdersQuery(),
     initialData: initialOrders,
@@ -42,6 +44,20 @@ export function OrderBoard({ initialOrders }: { initialOrders: BoardOrder[] }) {
           return status === "completed" ? [] : [{ ...o, status }];
         }),
       );
+      return { previous };
+    },
+    onError: (_error, _vars, context) => {
+      if (context?.previous) queryClient.setQueryData(orderKeys.current, context.previous);
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: orderKeys.all }),
+  });
+
+  const remove = useMutation({
+    ...deleteOrderMutation(),
+    onMutate: async (orderId) => {
+      await queryClient.cancelQueries({ queryKey: orderKeys.current });
+      const previous = queryClient.getQueryData<BoardOrder[]>(orderKeys.current);
+      queryClient.setQueryData<BoardOrder[]>(orderKeys.current, (old) => old?.filter((o) => o.orderId !== orderId));
       return { previous };
     },
     onError: (_error, _vars, context) => {
@@ -77,6 +93,7 @@ export function OrderBoard({ initialOrders }: { initialOrders: BoardOrder[] }) {
         zoneAt={zoneAt}
         onHover={setHover}
         onMove={(status) => update.mutate({ orderId: order.orderId, status })}
+        onDelete={() => remove.mutate(order.orderId)}
       />
     );
   }
@@ -100,6 +117,12 @@ export function OrderBoard({ initialOrders }: { initialOrders: BoardOrder[] }) {
       {update.isError && (
         <p role="alert" className="font-semibold text-alert">
           The order did not update. Check the connection and move it again.
+        </p>
+      )}
+
+      {remove.isError && (
+        <p role="alert" className="font-semibold text-alert">
+          The order was not deleted. Check the connection and delete it again.
         </p>
       )}
 

@@ -1,6 +1,7 @@
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
 import {
     createOrderAction,
+    deleteOrderAction,
     fetchCompletedOrdersAction,
     fetchCurrentOrdersAction,
     updateOrderStatusAction,
@@ -12,6 +13,7 @@ export const orderKeys = {
     current: ["orders", "current"] as const,
     completed: ["orders", "completed"] as const,
     updateStatus: ["orders", "updateStatus"] as const,
+    delete: ["orders", "delete"] as const,
 };
 
 export const POLL_INTERVAL_MS = 3000;
@@ -43,4 +45,10 @@ export const updateOrderStatusMutation = () =>
         mutationKey: orderKeys.updateStatus,
         mutationFn: (vars: { orderId: string; status: "pending" | "in_progress" | "completed" }) =>
             updateOrderStatusAction(vars.orderId, vars.status),
+    });
+
+export const deleteOrderMutation = () =>
+    mutationOptions({
+        mutationKey: orderKeys.delete,
+        mutationFn: (orderId: string) => deleteOrderAction(orderId),
     });

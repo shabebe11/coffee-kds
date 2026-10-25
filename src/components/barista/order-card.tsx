@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { capitalize } from "@/lib/text";
 import { milkText, minutesSince } from "./format";
 import type { BoardOrder, OrderStatus } from "./types";
 
 const LATE_MINUTES = 8;
 const DRAG_THRESHOLD_PX = 10;
+const CONFIRM_DELETE_MS = 3000;
 
 type DragState = { dx: number; dy: number; rect: DOMRect };
 
@@ -17,18 +18,27 @@ export function OrderCard({
   order,
   now,
   onMove,
+  onDelete,
   zoneAt,
   onHover,
 }: {
   order: BoardOrder;
   now: number;
   onMove: (status: OrderStatus) => void;
+  onDelete: () => void;
   zoneAt: (x: number, y: number) => OrderStatus | null;
   onHover: (zone: OrderStatus | null) => void;
 }) {
   const slotRef = useRef<HTMLDivElement>(null);
   const start = useRef<{ x: number; y: number } | null>(null);
   const [drag, setDrag] = useState<DragState | null>(null);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+
+  useEffect(() => {
+    if (!confirmingDelete) return;
+    const timer = setTimeout(() => setConfirmingDelete(false), CONFIRM_DELETE_MS);
+    return () => clearTimeout(timer);
+  }, [confirmingDelete]);
 
   const minutes = minutesSince(order.orderedAt, now);
   const late = minutes !== null && minutes >= LATE_MINUTES;
@@ -140,6 +150,15 @@ export function OrderCard({
               </button>
             </>
           )}
+          <button
+            type="button"
+            onClick={() => (confirmingDelete ? onDelete() : setConfirmingDelete(true))}
+            className={`${smallButton} ml-auto ${
+              confirmingDelete ? "border-alert bg-alert/10 text-alert" : "border-edge text-subtle"
+            }`}
+          >
+            {confirmingDelete ? "Confirm delete" : "Delete"}
+          </button>
         </div>
       </article>
     </div>
